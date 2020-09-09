@@ -10,15 +10,11 @@ messages = []   # empty list to which username:messages will be appended
 def add_messages(username, message):
     """add messages to the 'messages' list"""
     now = datetime.now().strftime("%H:%M:%S")
-    messages.append("({}) {}: {}".format(now, username, message))
+    messages_dict = {"timestamp": now, "from": username, "message": message}
+    messages.append(messages_dict)
 
 
-def get_all_messages():
-    """get all of the messages and separate them with a 'br'"""
-    return "<br>".join(messages)
-
-
-@app.route('/', methods = ["GET", "POST"])  # app root decorator for index page
+@app.route('/', methods=["GET", "POST"])  # app root decorator for index page
 def index():
     """Main page with instructions"""
 
@@ -34,7 +30,7 @@ def index():
 @app.route('/<username>')
 def user(username):
     """Display chat messages"""
-    return "<h1>Welcome, {0}</h1> {1}".format(username, get_all_messages())
+    return "<h1>Welcome, {0}</h1> {1}".format(username, messages)
 
 
 @app.route('/<username>/<message>')
